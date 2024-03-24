@@ -3,10 +3,13 @@ from collections import deque
 import gymnasium as gym
 import matplotlib.pyplot as plt
 from DeepQLearning import DeepQLearning
-from DeepQNetworks import DeepQNetworks
+# from DeepQNetworks import DeepQNetworks
+from DeepQNetworks import DQNAgent
 from hyperparameters import Hyperparameters
+import numpy as np
 
 env = gym.make("LunarLander-v2")
+np.random.seed(42)
 
 print("Which model do you want to train?")
 print("1 - DeepQLearning")
@@ -14,22 +17,22 @@ print("2 - DeepQNetworks")
 model_id = int(input())
 
 params = Hyperparameters(
-    learning_rate=0.001,
+    learning_rate=1e-4,
     gamma=0.99,
-    epsilon=1.0,
-    epsilon_min=0.01,
-    epsilon_dec=0.99,
-    episodes=1_000,
-    batch_size=64,
-    memory_size=10_000,
+    epsilon=0.9,
+    epsilon_min=0.05,
+    epsilon_dec=1000,
+    episodes=600,
+    batch_size=128,
+    memory_size=50_000,
 )
-memory = deque(maxlen=params.memory_size)
 
 if model_id == 1:
+    memory = deque(maxlen=params.memory_size)   
     model = DeepQLearning(env, params, memory)
 else:
-    params.target_update_rate = 50
-    model = DeepQNetworks(env, params, memory)
+    params.target_update_rate = 0.005
+    model = DQNAgent(env, params)
 
 device = model.device
 print(f"Training model {model} using {device}")

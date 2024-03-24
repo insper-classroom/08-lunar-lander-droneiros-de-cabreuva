@@ -3,6 +3,7 @@ import numpy as np
 import torch
 from torch.optim import Adam
 from network import create_network
+import math
 
 
 MAX_TIMESTEPS = 1000
@@ -18,18 +19,26 @@ class DeepQLearning:
     def __init__(self, env, hyperparameters, memory):
         self.env = env
         self.gamma = hyperparameters.gamma
+
         self.epsilon = hyperparameters.epsilon
+        self.epsilon_start = hyperparameters.epsilon
         self.epsilon_min = hyperparameters.epsilon_min
         self.epsilon_dec = hyperparameters.epsilon_dec
+
         self.episodes = hyperparameters.episodes
         self.batch_size = hyperparameters.batch_size
         self.memory = memory
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
         self.model = create_network(env).to(self.device)
         self.optimizer = Adam(self.model.parameters(), lr=hyperparameters.learning_rate)
+        self.steps_done = 0
 
     def select_action(self, state):
-        if np.random.rand() < self.epsilon:
+        eps_threshold = self.epsilon_min + (
+            self.epsilon_start - self.epsilon_min
+        ) * math.exp(-1.0 * self.steps_done / self.epsilon_dec)
+        self.steps_done += 1
+        if np.random.rand() < eps_threshold:
             return random.randrange(self.env.action_space.n)
         # We dont need gradient to make predictions, grab the action with the highest Q-value
         with torch.no_grad():
@@ -68,9 +77,7 @@ class DeepQLearning:
             # usando os q-valores para atualizar os pesos da rede
             targets_full[indexes.long(), actions.long()] = targets.float()
             self.fit_model(states, targets_full)
-
-            if self.epsilon > self.epsilon_min:
-                self.epsilon *= self.epsilon_dec
+         
 
     def fit_model(self, state, target):
         self.optimizer.zero_grad()
@@ -105,10 +112,17 @@ class DeepQLearning:
                 if done:
                     print(f"Episódio: {episode}/{self.episodes}. Score: {score}")
                     break
-                if episode == (self.episodes // 2):
-                    torch.save(self.model, f"models/{self}_half.pt")
-
+            if episode == (self.episodes // 2):
+                torch.save(self.model, f"models/{self}_half.pt")
             rewards.append(score)
+
+            if len(rewards) > 100:
+                mean_rewards = np.mean(rewards[-100:])
+                print(f"Last 100 mean rewards: {mean_rewards}")
+                if mean_rewards > 200:
+                    print("Solved!")
+                    break
+
 
         torch.save(self.model, f"models/{self}.pt")
         return rewards
