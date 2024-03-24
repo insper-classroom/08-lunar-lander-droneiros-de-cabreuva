@@ -12,4 +12,4 @@ class Hyperparameters:
     batch_size: int = 64
     memory_size: int = 10000
     # This is used in the DQN model only.
-    target_update_rate: int = 100
+    target_update_rate: float = 0.005
