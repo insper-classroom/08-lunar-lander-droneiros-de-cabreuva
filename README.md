@@ -90,7 +90,7 @@ These GIFs illustrate the progression from an inexperienced agent to a skilled o
 
 It is clear that in both algorithms, the agents were able to learn and specialize in their tasks. However, the Deep Q-Network (DQN) outperformed Deep Q-Learning (DQL) since, in the comparison of the Reward vs. Episode curves, the DQN converged in far fewer episodes, sometimes even in half the number of episodes required by DQL, and also achieved a higher average reward than DQL.
 
-The reason the Deep Q-Network (DQN) might perform better than basic Deep Q-Learning could be due to two main improvements in DQN. First, DQN uses a technique called experience replay, where it saves previous experiences and learns from them randomly. This helps the system to learn from a wide variety of past situations, making learning more efficient. Second, DQN uses what's called a target network, which is a separate network that helps in making the learning process more stable. These two features help DQN learn faster and achieve better results compared to traditional Deep Q-Learning.
+The reason the Deep Q-Network (DQN) might perform better than basic Deep Q-Learning could be due to a single main improvements in DQN. DQN uses what's called a target network, which is a separate network that helps in making the learning process more stable. This feature helps DQN learn faster and achieve better results compared to traditional Deep Q-Learning.
 
 ## References
 
