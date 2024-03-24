@@ -33,7 +33,7 @@ By comparing these two algorithms, we not only gauged the impact of advanced tec
 
 ![Learning Curve Deep Q-Learning](results/ll_dql_results.jpg)
 
-![Learning Curve DQN](results/dqn_ll.jpg)
+![Learning Curve DQN](results/ll_dqn_results.jpg)
 
 The learning curve above demonstrates the agent's performance over time, measured in terms of average reward per episode. Initially, the agent struggles to achieve successful landings, often incurring penalties for crashes or excessive fuel consumption. Over time, as the agent learns from its experiences, we observe a positive trend in performance, with increased rewards indicating more successful and efficient landings.
 
@@ -43,7 +43,7 @@ Here are two animations showing the agent trained using Deep Q-Learning algorith
 
 - Initial Stages of Learning:
   
-  ![Initial Stages of Deep Q-Learning](results/lander_initial_dql.pt.gif)
+  ![Initial Stages of Deep Q-Learning](results/lander_trained_dql_half.pt.gif)
 
 - After Training Completion:
   
@@ -53,7 +53,7 @@ Here are two animations showing the agent trained using DQN algorithm in action:
 
 - Initial Stages of Learning:
   
-  ![Initial Stages of Deep Q-Networks](results/lander_initial_dqn.pt.gif)
+  ![Initial Stages of Deep Q-Networks](results/lander_trained_dqn_half.pt.gif)
 
 - After Training Completion:
   
