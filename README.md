@@ -57,10 +57,12 @@ The learning curve above demonstrates the agent's performance over time, measure
 Here are two animations showing the agent trained using Deep Q-Learning algorithm in action:
 
 - Initial Stages of Learning:
-  
-<p align="center">
+
+<div align="center">
+  <p align="center">
   <img src="results/lander_trained_dql_half.pt.gif" alt="Initial Stages of Deep Q-Learning">
 </p>
+</div>
 
 - After Training Completion:
 
